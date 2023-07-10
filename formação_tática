@@ -44,9 +44,9 @@ def desenhar_campo():
 def on_selecionar_formacao_time1(event):
         formacao_selecionada = formacao_time1_selector.get()
         if formacao_selecionada == "3-4-3":#OK posições
-            posicoes_time1[:] = [(20, 300), (150, 150), (150, 300), (150, 450), (275, 100), (275, 250), (275, 350), (275, 500), (275, 150), (400, 300), (400, 450)]
+            posicoes_time1[:] = [(20, 300), (150, 150), (150, 300), (150, 450), (275, 100), (275, 250), (275, 350), (275, 500), (400, 150), (400, 300), (400, 450)]
         elif formacao_selecionada == "4-3-3":#OK posições
-            posicoes_time1[:] = [(20, 300), (150, 100), (150, 200), (150, 300), (150, 400), (275, 150), (275, 300), (275, 450), (400, 150), (400, 300), (400, 450)]
+            posicoes_time1[:] = [(20, 300), (150, 100), (150, 250), (150, 350), (150, 500), (275, 150), (275, 300), (275, 450), (400, 150), (400, 300), (400, 450)]
         elif formacao_selecionada == "4-4-2":#OK posições
             posicoes_time1[:] = [(20, 300), (150, 100), (150, 250), (150, 350), (150, 500), (275, 100), (275, 250), (275, 350), (275, 500), (400, 200), (400, 400)]
 
@@ -63,6 +63,7 @@ def atualizar_formacao_time2():
     desenhar_campo()
 
 def iniciar_jogo():
+    on_selecionar_formacao_time1(None)  # Chama a função para atualizar a formação do time1
     atualizar_formacao_time2()
 
 # Criação da janela
