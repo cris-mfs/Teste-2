@@ -1,0 +1,89 @@
+import tkinter as tk
+import random
+
+# Configurações do campo de futebol
+comprimento_campo = 900
+largura_campo = 600
+cor_fundo_campo = "green"
+cor_linhas = "white"
+
+# Configurações dos jogadores
+raio_jogador = 10
+cor_time1 = "red"
+cor_time2 = "blue"
+posicoes_time1 = [(20, 300), (150, 100), (150, 250), (150, 350), (150, 500), (275, 100), (275, 250), (275, 350), (275, 500), (400, 200), (400, 400)]
+posicoes_time2 = []
+
+def desenhar_campo():
+    # Criação do canvas
+    canvas.delete("all")
+
+    # Desenha as linhas de marcação do campo
+    # Linhas laterais
+    canvas.create_line(comprimento_campo / 2, 0, comprimento_campo / 2, largura_campo, fill=cor_linhas, width=2)
+    canvas.create_line(0, 0, 0, largura_campo, fill=cor_linhas, width=2)
+    canvas.create_line(comprimento_campo, 0, comprimento_campo, largura_campo, fill=cor_linhas, width=2)
+    # Linhas de fundo
+    canvas.create_line(0, 0, comprimento_campo, 0, fill=cor_linhas, width=2)
+    canvas.create_line(0, largura_campo, comprimento_campo, largura_campo, fill=cor_linhas, width=2)
+    # Linha central
+    canvas.create_line(comprimento_campo / 2, 0, comprimento_campo / 2, largura_campo, fill=cor_linhas, width=2)
+    # Círculos centrais
+    canvas.create_oval(comprimento_campo / 2 - 50, largura_campo / 2 - 50, comprimento_campo / 2 + 50, largura_campo / 2 + 50, outline=cor_linhas, width=2)
+
+    # Desenha os jogadores do time 1
+    for posicao in posicoes_time1:
+        x, y = posicao
+        canvas.create_oval(x - raio_jogador, y - raio_jogador, x + raio_jogador, y + raio_jogador, fill=cor_time1)
+
+    # Desenha os jogadores do time 2
+    for posicao in posicoes_time2:
+        x, y = posicao
+        canvas.create_oval(x - raio_jogador, y - raio_jogador, x + raio_jogador, y + raio_jogador, fill=cor_time2)
+
+def on_selecionar_formacao_time1(event):
+        formacao_selecionada = formacao_time1_selector.get()
+        if formacao_selecionada == "3-4-3":#OK posições
+            posicoes_time1[:] = [(20, 300), (150, 150), (150, 300), (150, 450), (275, 100), (275, 250), (275, 350), (275, 500), (275, 150), (400, 300), (400, 450)]
+        elif formacao_selecionada == "4-3-3":#OK posições
+            posicoes_time1[:] = [(20, 300), (150, 100), (150, 200), (150, 300), (150, 400), (275, 150), (275, 300), (275, 450), (400, 150), (400, 300), (400, 450)]
+        elif formacao_selecionada == "4-4-2":#OK posições
+            posicoes_time1[:] = [(20, 300), (150, 100), (150, 250), (150, 350), (150, 500), (275, 100), (275, 250), (275, 350), (275, 500), (400, 200), (400, 400)]
+
+
+def atualizar_formacao_time2():
+    formacao_time2 = random.choice(["3-4-3", "4-3-3", "4-4-2"])
+    if formacao_time2 == "3-4-3":#OK posições
+        posicoes_time2[:] = [(880, 300), (750, 150), (750, 300), (750, 450), (625, 100), (625, 250), (625, 350), (625, 500), (500, 150), (500, 300), (500, 450)]
+    elif formacao_time2 == "4-3-3":#OK posições
+        posicoes_time2[:] = [(880, 300), (750, 100), (750, 250), (750, 350), (750, 500), (625, 150), (625, 300), (625, 450), (500, 150), (500, 300), (500, 450)]
+    elif formacao_time2 == "4-4-2":#OK posições
+        posicoes_time2[:] = [(880, 300), (750, 100), (750, 250), (750, 350), (750, 500), (625, 100), (625, 250), (625, 350), (625, 500), (500, 200), (500, 400)]
+
+    desenhar_campo()
+
+def iniciar_jogo():
+    atualizar_formacao_time2()
+
+# Criação da janela
+janela = tk.Tk()
+janela.title("Campo de Futebol")
+
+# Criação do canvas
+canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
+canvas.pack()
+
+# Criação do seletor para alterar a formação tática do time 1
+formacao_time1_selector = tk.StringVar(janela)
+formacao_time1_selector.set("3-4-3")
+formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
+formacao_time1_menu.pack()
+
+# Criação do botão para iniciar o jogo
+jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
+jogar_button.pack()
+
+# Chamada inicial para desenhar o campo de futebol
+desenhar_campo()
+
+janela.mainloop()
