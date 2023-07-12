@@ -17,6 +17,7 @@ class SimuladorFutebol(tk.Tk):
         resultado = random.choice(['Vitória', 'Derrota', 'Empate'])
         tk.Label(self, text=f"Resultado do jogo: {resultado}").pack()
 
+
 if __name__ == '__main__':
     app = SimuladorFutebol()
     app.mainloop()
