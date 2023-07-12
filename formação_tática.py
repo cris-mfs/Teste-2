@@ -1,5 +1,6 @@
 import tkinter as tk
 import random
+import subprocess
 
 # Configurações do campo de futebol
 comprimento_campo = 900
@@ -65,6 +66,8 @@ def atualizar_formacao_time2():
 def iniciar_jogo():
     on_selecionar_formacao_time1(None)  # Chama a função para atualizar a formação do time1
     atualizar_formacao_time2()
+# função para abrir o script do plantel
+
 
 # Criação da janela
 janela = tk.Tk()
@@ -72,19 +75,37 @@ janela.title("Campo de Futebol")
 
 # Criação do canvas
 canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
-canvas.pack()
+canvas.grid(row=0, column=0, columnspan=2, rowspan=50)
 
 # Criação do seletor para alterar a formação tática do time 1
 formacao_time1_selector = tk.StringVar(janela)
 formacao_time1_selector.set("3-4-3")
 formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
-formacao_time1_menu.pack()
+formacao_time1_menu.grid(row=51, column=0)
 
 # Criação do botão para iniciar o jogo
 jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
-jogar_button.pack()
+jogar_button.grid(row=52, column=0)
 
 # Chamada inicial para desenhar o campo de futebol
 desenhar_campo()
+
+## Conjunto de Widgets para adicionar jogador
+nome_label = tk.Label(janela, text="Nome do Jogador")
+nome_label.grid(row=0,column=2)
+nome = tk.Entry(janela)
+nome.grid(row=0,column=3)
+idade_label = tk.Label(janela, text="Idade do Jogador")
+idade_label.grid(row=1,column=2)
+idade = tk.Entry(janela)
+idade.grid(row=1,column=3)
+posicao_label = tk.Label(janela, text="Posição do Jogador")
+posicao_label.grid(row=3,column=2)
+posicao = tk.Listbox(janela, height=4) # botão para posição de jogador
+posicao.insert(1, "Atacante")
+posicao.insert(2, "Médio")
+posicao.insert(3, "Defesa")
+posicao.insert(4, "Gaurda-Redes")
+posicao.grid(row=3,column=3)
 
 janela.mainloop()
