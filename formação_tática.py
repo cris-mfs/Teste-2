@@ -1,6 +1,7 @@
 import tkinter as tk
 import random
 from tkinter import * # Para poder utilizar a linha de apagar a entrada de texto
+from tkinter import messagebox
 import pandas as pd # para guardar os dados dos jogadores
 
 # Configurações do campo de futebol
@@ -83,11 +84,11 @@ canvas.grid(row=0, column=0, columnspan=2, rowspan=15)
 formacao_time1_selector = tk.StringVar(janela)
 formacao_time1_selector.set("3-4-3")
 formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
-formacao_time1_menu.grid(row=41, column=2, columnspan=2)
+formacao_time1_menu.grid(row=11, column=2, columnspan=2)
 
 # Criação do botão para iniciar o jogo
 jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
-jogar_button.grid(row=45, column=2, columnspan=2)
+jogar_button.grid(row=12, column=2, columnspan=2)
 
 # Chamada inicial para desenhar o campo de futebol
 desenhar_campo()
@@ -131,7 +132,7 @@ lista_plantel_label = tk.Label(janela, text="Lista Jogadores")
 lista_plantel_label.grid(row=4, column=2)
 
 jogadores_dict = {
-    "Nome Jogador":[],
+    "Nome":[],
     "Idade":[],
     "Posição":[],
     "Velocidade": [],
@@ -189,46 +190,49 @@ for i in range(11):
     def detalhes_jogador():
         global saldo
         nome_jogador = plantel_list.get(plantel_list.curselection())
+        id_jogador = int(plantel_list.curselection()[0])
+        dados = jogadores_df.filter(items=[id_jogador], axis=0)
         detalhes_app = Toplevel(janela)
         detalhes_app.title("Estatísticas Jogador")
-        detalhes_app.geometry("500x500")
-        #print(jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador].get(key = "Idade"))
-        label_nome_jogador = tk.Label(detalhes_app, text=f"Nome: {nome_jogador}")
-        label_nome_jogador.pack()
-        idade_jogador = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Idade"].values[0]
-        label_idade = tk.Label(detalhes_app, text=f"Idade: {idade_jogador}")
-        label_idade.pack()
-        posicao_jogador = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Posição"].values[0]
-        label_posicao = tk.Label(detalhes_app, text=f"Posição: {posicao_jogador}")
-        label_posicao.pack()
-        stat1_jogador = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Velocidade"].values[0]
-        label_stat1 = tk.Label(detalhes_app, text=f"Velocidade: {stat1_jogador}")
-        label_stat1.pack()
-        stat2_jogador = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Força"].values[0]
-        label_stat2 = tk.Label(detalhes_app, text=f"Força: {stat2_jogador}")
-        label_stat2.pack()
-        stat3_jogador = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Resistência"].values[0]
-        label_stat3 = tk.Label(detalhes_app, text=f"Resistência: {stat3_jogador}")
-        label_stat3.pack()
-        stat4_jogador = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Drible"].values[0]
-        label_stat4 = tk.Label(detalhes_app, text=f"Drible: {stat4_jogador}")
-        label_stat4.pack()
-        stat5_jogador = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Passe"].values[0]
-        label_stat5 = tk.Label(detalhes_app, text=f"Passe: {stat5_jogador}")
-        label_stat5.pack()
+        detalhes_app.geometry("300x200")
+        dados = jogadores_df.filter(items=[id_jogador], axis=0)
+        cabecalhos = dados.columns.tolist()
+        valores = dados.values.flatten().tolist()
+        texto1 = "\n".join([f"{cabecalho}" for cabecalho in cabecalhos])
+        label = tk.Label(detalhes_app, text=texto1, justify='left', anchor='w')
+        label.grid(row=0, column=0)
+        texto2 = "\n".join([f"{valor}" for valor in valores])
+        label = tk.Label(detalhes_app, text=texto2, justify='right', anchor='w')
+        label.grid(row=0, column=1)
 
         #BOTÕES PARA TREINAR
-        def command_treinar():
-            old_value = jogadores_df[jogadores_df["Nome Jogador"]==nome_jogador]["Velocidade"].values[0]
-            print(old_value)
+        def command_treinar(Stat_a_treinar):
+            linha_a_mudar = jogadores_df.filter(items=[id_jogador], axis=0)
+            old_value = linha_a_mudar[Stat_a_treinar].values[0]
             new_value = old_value + 1
-            print(new_value)
-            teste = jogadores_df.xs("Velocidade")
-            print(teste)
+            if new_value < 11: # Limite de treino é até 10
+                indice_jogador_a_treinar = jogadores_df[jogadores_df["Nome"]==nome_jogador].index[0]
+                jogadores_df.at[indice_jogador_a_treinar, Stat_a_treinar] = new_value
+                # Atualizar os dados a mostrar
+                dados = jogadores_df[jogadores_df["Nome"]==nome_jogador]
+                valores = dados.values.flatten().tolist()
+                texto2 = "\n".join([f"{valor}" for valor in valores])
+                label = tk.Label(detalhes_app, text=texto2, justify='right', anchor='w')
+                label.grid(row=0, column=1)
+            else:
+                messagebox.showinfo("Erro", "Não é possível treinar porque o Stat do jogador está no máximo")
             return
         
-        botao_treino1 = tk.Button(detalhes_app, text="Treino1", command=command_treinar)
-        botao_treino1.pack()
+        botao_treino_stat1 = tk.Button(detalhes_app, text="+ Velocidade", height=1, command=lambda i = "Velocidade": command_treinar(i))
+        botao_treino_stat1.grid(row=1, column=0)
+        botao_treino_stat2 = tk.Button(detalhes_app, text="+ Força", height=1, command=lambda i = "Força": command_treinar(i))
+        botao_treino_stat2.grid(row=1, column=1)
+        botao_treino_stat3 = tk.Button(detalhes_app, text="+ Resistência", height=1, command=lambda i = "Resistência": command_treinar(i))
+        botao_treino_stat3.grid(row=1, column=2)
+        botao_treino_stat4 = tk.Button(detalhes_app, text="+ Drible", height=1, command=lambda i = "Drible": command_treinar(i))
+        botao_treino_stat4.grid(row=2, column=0)
+        botao_treino_stat5 = tk.Button(detalhes_app, text="+ Passe", height=1, command=lambda i = "Passe": command_treinar(i))
+        botao_treino_stat5.grid(row=2, column=1)
         return
 ## botão para selecionar jogador e abrir menu de treino
 botao_selecionar = tk.Button(janela, text="Ver Detalhes", command=detalhes_jogador)
