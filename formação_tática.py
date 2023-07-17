@@ -73,21 +73,21 @@ def iniciar_jogo():
 # Criação da janela
 janela = tk.Tk()
 janela.title("Campo de Futebol")
-janela.geometry("1085x600")
+janela.geometry("1210x610")
 
 # Criação do canvas
 canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
-canvas.grid(row=0, column=0, columnspan=2, rowspan=15)
+canvas.grid(row=0, column=0, columnspan=2, rowspan=50)
 
 # Criação do seletor para alterar a formação tática do time 1
 formacao_time1_selector = tk.StringVar(janela)
 formacao_time1_selector.set("3-4-3")
 formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
-formacao_time1_menu.grid(row=11, column=2)
+formacao_time1_menu.grid(row=48, column=2)
 
 # Criação do botão para iniciar o jogo
 jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
-jogar_button.grid(row=12, column=2)
+jogar_button.grid(row=49, column=2)
 
 # Chamada inicial para desenhar o campo de futebol
 desenhar_campo()
@@ -105,12 +105,12 @@ saldo = 0
 nome_label = tk.Label(janela, text="Nome do Jogador")
 nome_label.grid(row=0,column=2)
 nome = tk.Entry(janela)
-nome.grid(row=1,column=2)
+nome.grid(row=0,column=3)
 
 idade_label = tk.Label(janela, text="Idade do Jogador")
 idade_label.grid(row=2,column=2)
 idade = tk.Entry(janela)
-idade.grid(row=3,column=2)
+idade.grid(row=2,column=3)
 
 posicao_label = tk.Label(janela, text="Posição do Jogador")
 posicao_label.grid(row=4,column=2)
@@ -119,9 +119,9 @@ posicao.insert(1, "Atacante")
 posicao.insert(2, "Médio")
 posicao.insert(3, "Defesa")
 posicao.insert(4, "Gaurda-Redes")
-posicao.grid(row=5,column=2)
+posicao.grid(row=4,column=3)
 
-plantel_list = tk.Listbox(janela, width=20, height=10)
+plantel_list = tk.Listbox(janela, width=20, height=15)
 plantel_list.grid(row=4, column=3, rowspan=2)
 scrollbar = Scrollbar(janela)
 scrollbar.grid(row=4, column=4, rowspan=2, sticky="ns")
