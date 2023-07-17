@@ -149,6 +149,11 @@ class simulador_futebol:
         
         self.textbox_historico = tk.Text(master, height=10, width=40)
         self.textbox_historico.pack()
+#Função de input das equipas criadas
+        def criar_equipas(self):
+            equipa_usuario = self.entry_equipa_usuario.get()
+            equipa_adversaria = self.entry_equipa_adversaria.get()
+
 
 
 
