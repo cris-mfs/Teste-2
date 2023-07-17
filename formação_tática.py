@@ -73,7 +73,7 @@ def iniciar_jogo():
 # Criação da janela
 janela = tk.Tk()
 janela.title("Campo de Futebol")
-janela.geometry("1210x610")
+janela.geometry("1210x602")
 
 # Criação do canvas
 canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
@@ -83,11 +83,11 @@ canvas.grid(row=0, column=0, columnspan=2, rowspan=50)
 formacao_time1_selector = tk.StringVar(janela)
 formacao_time1_selector.set("3-4-3")
 formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
-formacao_time1_menu.grid(row=48, column=2)
+formacao_time1_menu.grid(row=41, column=2, columnspan=2)
 
 # Criação do botão para iniciar o jogo
 jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
-jogar_button.grid(row=49, column=2)
+jogar_button.grid(row=45, column=2, columnspan=2)
 
 # Chamada inicial para desenhar o campo de futebol
 desenhar_campo()
@@ -108,25 +108,27 @@ nome = tk.Entry(janela)
 nome.grid(row=0,column=3)
 
 idade_label = tk.Label(janela, text="Idade do Jogador")
-idade_label.grid(row=2,column=2)
+idade_label.grid(row=1,column=2)
 idade = tk.Entry(janela)
-idade.grid(row=2,column=3)
+idade.grid(row=1,column=3)
 
 posicao_label = tk.Label(janela, text="Posição do Jogador")
-posicao_label.grid(row=4,column=2)
+posicao_label.grid(row=2,column=2)
 posicao = tk.Listbox(janela, height=4) # botão para posição de jogador
 posicao.insert(1, "Atacante")
 posicao.insert(2, "Médio")
 posicao.insert(3, "Defesa")
 posicao.insert(4, "Gaurda-Redes")
-posicao.grid(row=4,column=3)
+posicao.grid(row=2,column=3)
 
-plantel_list = tk.Listbox(janela, width=20, height=15)
-plantel_list.grid(row=4, column=3, rowspan=2)
+plantel_list = tk.Listbox(janela, width=20, height=10)
+plantel_list.grid(row=4, column=3)
 scrollbar = Scrollbar(janela)
-scrollbar.grid(row=4, column=4, rowspan=2, sticky="ns")
+scrollbar.grid(row=4, column=4, sticky="ns")
 plantel_list.config(yscrollcommand = scrollbar.set)
 scrollbar.config(command = plantel_list.yview)
+lista_plantel_label = tk.Label(janela, text="Lista Jogadores")
+lista_plantel_label.grid(row=4, column=2)
 
 jogadores_dict = {
     "Nome Jogador":[],
@@ -161,7 +163,7 @@ def command_adicionar_dados_jogador():
     return
 
 botao_submeter = tk.Button(janela, text="Adicionar jogador", command=command_adicionar_dados_jogador)
-botao_submeter.grid(row=4, column=2)
+botao_submeter.grid(row=3, column=3)
 
 # Excerto para criar plantel aleatório
 exemplos_primeiro_nome = ["David","Cristiano","João", "Pedro", "Alberto", "Inácio", "Mauro", "José", "Eusébio", "Ricardo", "Miguel"]
@@ -229,7 +231,7 @@ for i in range(11):
         botao_treino1.pack()
         return
 ## botão para selecionar jogador e abrir menu de treino
-botao_selecionar = tk.Button(janela, text="Detalhes", command=detalhes_jogador)
-botao_selecionar.grid(row=5,column=2)
+botao_selecionar = tk.Button(janela, text="Ver Detalhes", command=detalhes_jogador)
+botao_selecionar.grid(row=5,column=3)
 
 janela.mainloop()
