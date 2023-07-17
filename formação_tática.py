@@ -119,17 +119,20 @@ class simulador_futebol:
         self.master.title("simulador de futebol")
         self.pontos_equipa_usuario = 0
         self.pontos_equipa_adversaria = 0
-
+#Janela para criar equipa
         self.label_equipa_usuario =tk.Label(master, text="Equipa do utilizador:")
         self.label_equipa_usuario.pack()
 
         self.entry_equipa_usuario = tk.Entry(master)
         self.entry_equipa_usuario.pack()
-        
+#Janela para criar equipa adversaria        
         self.label_equipa_adversaria = tk.Label(master, text="Equipa Adversária:")
         self.label_equipa_adversaria.pack()
         
         self.entry_equipa_adversaria = tk.Entry(master)
         self.entry_equipa_adversaria.pack()
+
+        self.button_criar_equipas = tk.Button(master, text="Criar equipas", command=self.button_criar_equipas)
+        self.button_criar_equipas.pack()
 
 janela.mainloop()
