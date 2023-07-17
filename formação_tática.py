@@ -111,8 +111,8 @@ posicao.insert(2, "Médio")
 posicao.insert(3, "Defesa")
 posicao.insert(4, "Gaurda-Redes")
 posicao.grid(row=5,column=2)
-
-#simulador de jogos
+######################################
+#simulador de jogos e campeonato
 class simulador_futebol:
     def __init__(self,master):
         self.master = master
@@ -134,5 +134,24 @@ class simulador_futebol:
 
         self.button_criar_equipas = tk.Button(master, text="Criar equipas", command=self.button_criar_equipas)
         self.button_criar_equipas.pack()
+#Botão simular jogo
+        self.button_simular_jogo = tk.Button(master, "Simular Jogo", command=self.button_simular_jogo, state=tk.DISABLED)
+        self.button_simular_jogo.pack()
+#Botão de inicio de campeonato
+        self.button_campeonato = tk.Button(master, text="Iniciar Campeonato", command=self.iniciar_campeonato, state=tk.DISABLED)
+        self.button_campeonato.pack()
+#Botão Reset de campeonato     
+        self.button_reset = tk.Button(master, text="Reset", command=self.reset)
+        self.button_reset.pack()
+        
+        self.label_historico = tk.Label(master, text="Histórico de Jogos:")
+        self.label_historico.pack()
+        
+        self.textbox_historico = tk.Text(master, height=10, width=40)
+        self.textbox_historico.pack()
+
+
+
+
 
 janela.mainloop()
