@@ -4,7 +4,7 @@ from tkinter import * # Para poder utilizar a linha de apagar a entrada de texto
 import pandas as pd # para guardar os dados dos jogadores
 
 # Configurações do campo de futebol
-comprimento_campo = 900
+comprimento_campo = 950
 largura_campo = 600
 cor_fundo_campo = "green"
 cor_linhas = "white"
@@ -73,20 +73,21 @@ def iniciar_jogo():
 # Criação da janela
 janela = tk.Tk()
 janela.title("Campo de Futebol")
+janela.geometry("1085x600")
 
 # Criação do canvas
 canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
-canvas.grid(row=0, column=0, columnspan=2, rowspan=50)
+canvas.grid(row=0, column=0, columnspan=2, rowspan=15)
 
 # Criação do seletor para alterar a formação tática do time 1
 formacao_time1_selector = tk.StringVar(janela)
 formacao_time1_selector.set("3-4-3")
 formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
-formacao_time1_menu.grid(row=51, column=0)
+formacao_time1_menu.grid(row=11, column=2)
 
 # Criação do botão para iniciar o jogo
 jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
-jogar_button.grid(row=52, column=0)
+jogar_button.grid(row=12, column=2)
 
 # Chamada inicial para desenhar o campo de futebol
 desenhar_campo()
@@ -104,19 +105,21 @@ saldo = 0
 nome_label = tk.Label(janela, text="Nome do Jogador")
 nome_label.grid(row=0,column=2)
 nome = tk.Entry(janela)
-nome.grid(row=0,column=3)
+nome.grid(row=1,column=2)
+
 idade_label = tk.Label(janela, text="Idade do Jogador")
-idade_label.grid(row=1,column=2)
+idade_label.grid(row=2,column=2)
 idade = tk.Entry(janela)
-idade.grid(row=1,column=3)
+idade.grid(row=3,column=2)
+
 posicao_label = tk.Label(janela, text="Posição do Jogador")
-posicao_label.grid(row=3,column=2)
+posicao_label.grid(row=4,column=2)
 posicao = tk.Listbox(janela, height=4) # botão para posição de jogador
 posicao.insert(1, "Atacante")
 posicao.insert(2, "Médio")
 posicao.insert(3, "Defesa")
 posicao.insert(4, "Gaurda-Redes")
-posicao.grid(row=3,column=3)
+posicao.grid(row=5,column=2)
 
 plantel_list = tk.Listbox(janela, width=20, height=10)
 plantel_list.grid(row=4, column=3, rowspan=2)
