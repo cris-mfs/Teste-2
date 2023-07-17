@@ -87,5 +87,87 @@ class FootballSimulator:
 
         self.match_history_label.config(text=history_text)
 
+class CampeonatoFutebol:
+    def __init__(self):
+        self.jogos_disputados = 0
+        self.pontos_equipe1 = 0
+        self.pontos_equipe2 = 0
+        self.histórico = []
+
+    def atualizar_pontos(self, resultado):
+        if resultado == 'vitória':
+            self.pontos_equipe1 += 3
+        elif resultado == 'derrota':
+            self.pontos_equipe2 += 3
+        else:  # empate
+            self.pontos_equipe1 += 1
+            self.pontos_equipe2 += 1
+
+    def adicionar_historico(self, resultado):
+        self.histórico.append(resultado)
+
+    def verificar_fim_campeonato(self):
+        return self.jogos_disputados == 15
+
+    def finalizar_campeonato(self):
+        messagebox.showinfo('Fim de campeonato', 'Campeonato finalizado!\n'
+                                                  f'Pontos da equipe 1: {self.pontos_equipe1}\n'
+                                                  f'Pontos da equipe 2: {self.pontos_equipe2}\n'
+                                                  f'Histórico de jogos: {self.histórico}')
+
+    def jogar_partida(self, equipe1, equipe2):
+        resultado = messagebox.askquestion('Partida', f'{equipe1} vs {equipe2}\n'
+                                                      'Quem venceu?')
+        if resultado == 'yes':
+            self.atualizar_pontos('vitória')
+            self.adicionar_historico(f'{equipe1} venceu')
+        elif resultado == 'no':
+            self.atualizar_pontos('derrota')
+            self.adicionar_historico(f'{equipe2} venceu')
+        else:
+            self.atualizar_pontos('empate')
+            self.adicionar_historico('Empate')
+
+        self.jogos_disputados += 1
+
+        if self.verificar_fim_campeonato():
+            self.finalizar_campeonato()
+
+
+class InterfaceCampeonato(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.campeonato = CampeonatoFutebol()
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.equipe1_label = tk.Label(self, text='Equipe 1:')
+        self.equipe1_label.grid(row=0, column=0, padx=5, pady=5)
+        self.equipe1_entry = tk.Entry(self)
+        self.equipe1_entry.grid(row=0, column=1, padx=5, pady=5)
+
+        self.equipe2_label = tk.Label(self, text='Equipe 2:')
+        self.equipe2_label.grid(row=1, column=0, padx=5, pady=5)
+        self.equipe2_entry = tk.Entry(self)
+        self.equipe2_entry.grid(row=1, column=1, padx=5, pady=5)
+
+        self.jogar_button = tk.Button(self, text='Jogar', command=self.jogar_partida)
+        self.jogar_button.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
+
+    def jogar_partida(self):
+        equipe1 = self.equipe1_entry.get()
+        equipe2 = self.equipe2_entry.get()
+
+        if equipe1 and equipe2:
+            self.campeonato.jogar_partida(equipe1, equipe2)
+        else:
+            messagebox.showerror('Erro', 'Insira o nome das duas equipes.')
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    app = InterfaceCampeonato(master=root)
+
 simulator = FootballSimulator()
 simulator.window.mainloop()
