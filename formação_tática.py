@@ -77,7 +77,7 @@ janela.geometry("1210x610")
 
 # Criação do canvas
 canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
-canvas.grid(row=0, column=0, columnspan=2, rowspan=20)
+canvas.grid(row=0, column=0, columnspan=2, rowspan=15)
 
 # Criação do seletor para alterar a formação tática do time 1
 formacao_time1_selector = tk.StringVar(janela)
