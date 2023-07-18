@@ -66,10 +66,6 @@ def atualizar_formacao_time2():
 
     desenhar_campo()
 
-def iniciar_jogo():
-    on_selecionar_formacao_time1(None)  # Chama a função para atualizar a formação do time1
-    atualizar_formacao_time2()
-
 # Criação da janela
 janela = tk.Tk()
 janela.title("Campo de Futebol")
@@ -83,11 +79,11 @@ canvas.grid(row=0, column=0, columnspan=2, rowspan=50)
 formacao_time1_selector = tk.StringVar(janela)
 formacao_time1_selector.set("3-4-3")
 formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
-formacao_time1_menu.grid(row=11, column=2)
+formacao_time1_menu.grid(row=12, column=2)
 
 # Criação do botão para iniciar o jogo
-jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
-jogar_button.grid(row=12, column=2)
+formacao_label = tk.Label(janela, text="Formação Tática:")
+formacao_label.grid(row=11, column=2)
 
 # Chamada inicial para desenhar o campo de futebol
 desenhar_campo()
@@ -298,7 +294,9 @@ class SimuladorFutebol:
             
     def simular_jogo(self):
         resultado = random.choice(["vitória", "empate", "derrota"])
-        
+        on_selecionar_formacao_time1(None)  # Chama a função para atualizar a formação do time1
+        atualizar_formacao_time2() 
+
         if resultado == "vitória":
             self.pontos_equipa_usuario += 3
             self.pontos_equipa_adversaria += 0
