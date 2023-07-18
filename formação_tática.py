@@ -69,17 +69,15 @@ def atualizar_formacao_time2():
 def iniciar_jogo():
     on_selecionar_formacao_time1(None)  # Chama a função para atualizar a formação do time1
     atualizar_formacao_time2()
-# função para abrir o script do plantel
-
 
 # Criação da janela
 janela = tk.Tk()
 janela.title("Campo de Futebol")
-janela.geometry("1085x600")
+janela.geometry("1200x600")
 
 # Criação do canvas
 canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
-canvas.grid(row=0, column=0, columnspan=2, rowspan=15)
+canvas.grid(row=0, column=0, columnspan=2, rowspan=50)
 
 # Criação do seletor para alterar a formação tática do time 1
 formacao_time1_selector = tk.StringVar(janela)
@@ -106,21 +104,21 @@ saldo = 0
 nome_label = tk.Label(janela, text="Nome do Jogador")
 nome_label.grid(row=0,column=2)
 nome = tk.Entry(janela)
-nome.grid(row=1,column=2)
+nome.grid(row=0,column=3)
 
 idade_label = tk.Label(janela, text="Idade do Jogador")
-idade_label.grid(row=2,column=2)
+idade_label.grid(row=1,column=2)
 idade = tk.Entry(janela)
-idade.grid(row=3,column=2)
+idade.grid(row=1,column=3)
 
 posicao_label = tk.Label(janela, text="Posição do Jogador")
-posicao_label.grid(row=4,column=2)
+posicao_label.grid(row=2,column=2)
 posicao = tk.Listbox(janela, height=4) # botão para posição de jogador
 posicao.insert(1, "Atacante")
 posicao.insert(2, "Médio")
 posicao.insert(3, "Defesa")
 posicao.insert(4, "Gaurda-Redes")
-posicao.grid(row=5,column=2)
+posicao.grid(row=2,column=3)
 
 
 plantel_list = tk.Listbox(janela, width=20, height=10)
@@ -239,8 +237,12 @@ for i in range(11):
 botao_selecionar = tk.Button(janela, text="Ver Detalhes", command=detalhes_jogador)
 botao_selecionar.grid(row=5,column=3)
 
-######################################
-#simulador de jogos e campeonato
+#####################################################################
+#                                                                   #
+# ------- Secção de Código para Simular Jogos e Campeonata -------- #
+#                                                                   #
+#####################################################################
+
 class simulador_futebol:
     def __init__(self,master):
         self.master = master
