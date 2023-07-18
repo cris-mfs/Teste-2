@@ -73,7 +73,7 @@ def iniciar_jogo():
 # Criação da janela
 janela = tk.Tk()
 janela.title("Campo de Futebol")
-janela.geometry("1200x600")
+janela.geometry("1400x800")
 
 # Criação do canvas
 canvas = tk.Canvas(janela, width=comprimento_campo, height=largura_campo, bg=cor_fundo_campo)
@@ -83,11 +83,11 @@ canvas.grid(row=0, column=0, columnspan=2, rowspan=50)
 formacao_time1_selector = tk.StringVar(janela)
 formacao_time1_selector.set("3-4-3")
 formacao_time1_menu = tk.OptionMenu(janela, formacao_time1_selector, "3-4-3", "4-3-3", "4-4-2")
-formacao_time1_menu.grid(row=11, column=2, columnspan=2)
+formacao_time1_menu.grid(row=11, column=2)
 
 # Criação do botão para iniciar o jogo
 jogar_button = tk.Button(janela, text="Jogar", command=iniciar_jogo)
-jogar_button.grid(row=12, column=2, columnspan=2)
+jogar_button.grid(row=12, column=2)
 
 # Chamada inicial para desenhar o campo de futebol
 desenhar_campo()
@@ -254,34 +254,34 @@ class SimuladorFutebol:
         self.historico_jogos = []
         
         self.label_equipa_usuario = tk.Label(master, text="Equipa do Utilizador:")
-        self.label_equipa_usuario.pack()
+        self.label_equipa_usuario.grid(row=6,column=3)
         
         self.entry_equipa_usuario = tk.Entry(master)
-        self.entry_equipa_usuario.pack()
+        self.entry_equipa_usuario.grid(row=7, column=3)
         
         self.label_equipa_adversaria = tk.Label(master, text="Equipa Adversária:")
-        self.label_equipa_adversaria.pack()
+        self.label_equipa_adversaria.grid(row=8, column=3)
         
         self.entry_equipa_adversaria = tk.Entry(master)
-        self.entry_equipa_adversaria.pack()
+        self.entry_equipa_adversaria.grid(row=9, column=3)
         
         self.button_criar_equipas = tk.Button(master, text="Criar Equipas", command=self.criar_equipas)
-        self.button_criar_equipas.pack()
+        self.button_criar_equipas.grid(row=10, column=3)
         
         self.button_simular_jogo = tk.Button(master, text="Simular Jogo", command=self.simular_jogo, state=tk.DISABLED)
-        self.button_simular_jogo.pack()
+        self.button_simular_jogo.grid(row=11, column=3)
         
         self.button_campeonato = tk.Button(master, text="Iniciar Campeonato", command=self.iniciar_campeonato, state=tk.DISABLED)
-        self.button_campeonato.pack()
+        self.button_campeonato.grid(row=12, column=3)
         
         self.button_reset = tk.Button(master, text="Reset", command=self.reset)
-        self.button_reset.pack()
+        self.button_reset.grid(row=13, column=3)
         
         self.label_historico = tk.Label(master, text="Histórico de Jogos:")
-        self.label_historico.pack()
+        self.label_historico.grid(row=14, column=3)
         
         self.textbox_historico = tk.Text(master, height=10, width=40)
-        self.textbox_historico.pack()
+        self.textbox_historico.grid(row=15, column=3)
         
     def criar_equipas(self):
         equipa_usuario = self.entry_equipa_usuario.get()
@@ -297,7 +297,7 @@ class SimuladorFutebol:
             messagebox.showerror("Erro", "Preencha o nome das equipas!")
             
     def simular_jogo(self):
-        resultado = choice(["vitória", "empate", "derrota"])
+        resultado = random.choice(["vitória", "empate", "derrota"])
         
         if resultado == "vitória":
             self.pontos_equipa_usuario += 3
@@ -351,13 +351,14 @@ class SimuladorFutebol:
 
 simulador = SimuladorFutebol(janela)
 
-
-
 ###################################
 #                                 #
 # ------- Teste Unitário -------- #
 #                                 #
 ###################################
+
+    
+janela.mainloop()
 
 class Testar_caracteristicas_jogador(unittest.TestCase):
     def teste_jogador_sem_características_vazias(self):
@@ -369,5 +370,3 @@ class Testar_caracteristicas_jogador(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
-janela.mainloop()
