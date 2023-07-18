@@ -244,34 +244,38 @@ botao_selecionar.grid(row=5,column=3)
 #                                                                   #
 #####################################################################
 
-class simulador_futebol:
-    def __init__(self,master):
+
+
+class SimuladorFutebol:
+    def __init__(self, master):
         self.master = master
-        self.master.title("simulador de futebol")
+        self.master.title("Simulador de Futebol")
+        
         self.pontos_equipa_usuario = 0
         self.pontos_equipa_adversaria = 0
-#Janela para criar equipa
-        self.label_equipa_usuario =tk.Label(master, text="Equipa do utilizador:")
+        self.historico_jogos = []
+        
+        self.label_equipa_usuario = tk.Label(master, text="Equipa do Utilizador:")
         self.label_equipa_usuario.pack()
-
+        
         self.entry_equipa_usuario = tk.Entry(master)
         self.entry_equipa_usuario.pack()
-#Janela para criar equipa adversaria        
+        
         self.label_equipa_adversaria = tk.Label(master, text="Equipa Adversária:")
         self.label_equipa_adversaria.pack()
         
         self.entry_equipa_adversaria = tk.Entry(master)
         self.entry_equipa_adversaria.pack()
-
-        self.button_criar_equipas = tk.Button(master, text="Criar equipas", command=self.button_criar_equipas)
+        
+        self.button_criar_equipas = tk.Button(master, text="Criar Equipas", command=self.criar_equipas)
         self.button_criar_equipas.pack()
-#Botão simular jogo
-        self.button_simular_jogo = tk.Button(master, "Simular Jogo", command=self.button_simular_jogo, state=tk.DISABLED)
+        
+        self.button_simular_jogo = tk.Button(master, text="Simular Jogo", command=self.simular_jogo, state=tk.DISABLED)
         self.button_simular_jogo.pack()
-#Botão de inicio de campeonato
+        
         self.button_campeonato = tk.Button(master, text="Iniciar Campeonato", command=self.iniciar_campeonato, state=tk.DISABLED)
         self.button_campeonato.pack()
-#Botão Reset de campeonato     
+        
         self.button_reset = tk.Button(master, text="Reset", command=self.reset)
         self.button_reset.pack()
         
@@ -280,11 +284,76 @@ class simulador_futebol:
         
         self.textbox_historico = tk.Text(master, height=10, width=40)
         self.textbox_historico.pack()
-#Função de input das equipas criadas
-        def criar_equipas(self):
-            equipa_usuario = self.entry_equipa_usuario.get()
-            equipa_adversaria = self.entry_equipa_adversaria.get()
-janela.mainloop()
+        
+    def criar_equipas(self):
+        equipa_usuario = self.entry_equipa_usuario.get()
+        equipa_adversaria = self.entry_equipa_adversaria.get()
+        
+        if equipa_usuario and equipa_adversaria:
+            self.equipa_usuario = equipa_usuario
+            self.equipa_adversaria = equipa_adversaria
+            messagebox.showinfo("Sucesso", "Equipas criadas com sucesso!")
+            self.button_simular_jogo.config(state=tk.NORMAL)
+            self.button_campeonato.config(state=tk.NORMAL)
+        else:
+            messagebox.showerror("Erro", "Preencha o nome das equipas!")
+            
+    def simular_jogo(self):
+        resultado = choice(["vitória", "empate", "derrota"])
+        
+        if resultado == "vitória":
+            self.pontos_equipa_usuario += 3
+            self.pontos_equipa_adversaria += 0
+            vencedor = self.equipa_usuario
+            perdedor = self.equipa_adversaria
+        elif resultado == "empate":
+            self.pontos_equipa_usuario += 1
+            self.pontos_equipa_adversaria += 1
+            vencedor = "Empate"
+            perdedor = "Empate"
+        else:
+            self.pontos_equipa_usuario += 0
+            self.pontos_equipa_adversaria += 3
+            vencedor = self.equipa_adversaria
+            perdedor = self.equipa_usuario
+            
+        resultado_jogo = f"{self.equipa_usuario} {resultado.upper()} {self.equipa_adversaria}"
+        self.historico_jogos.append(resultado_jogo)
+        
+        self.textbox_historico.insert(tk.END, resultado_jogo + "\n")
+        
+        messagebox.showinfo("Resultado", resultado_jogo)
+        
+    def iniciar_campeonato(self):
+        self.reset()
+        
+        for jogo in range(1, 16):
+            self.simular_jogo()
+        
+        if self.pontos_equipa_usuario > self.pontos_equipa_adversaria:
+            vencedor = self.equipa_usuario
+        elif self.pontos_equipa_usuario < self.pontos_equipa_adversaria:
+            vencedor = self.equipa_adversaria
+        else:
+            vencedor = "Empate"
+            
+        messagebox.showinfo("Campeonato", f"O vencedor do campeonato é: {vencedor}!")
+        
+    def reset(self):
+        self.pontos_equipa_usuario = 0
+        self.pontos_equipa_adversaria = 0
+        self.entry_equipa_usuario.delete(0, tk.END)
+        self.entry_equipa_adversaria.delete(0, tk.END)
+        self.historico_jogos = []
+        self.textbox_historico.delete(1.0, tk.END)
+        
+        self.button_simular_jogo.config(state=tk.DISABLED)
+        self.button_campeonato.config(state=tk.DISABLED)
+        
+
+simulador = SimuladorFutebol(janela)
+
+
 
 # Teste unitário #
 
@@ -298,3 +367,5 @@ class Testar_caracteristicas_jogador(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    
+janela.mainloop()
