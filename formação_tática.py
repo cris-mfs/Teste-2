@@ -3,7 +3,7 @@ import random
 from tkinter import * # Para poder utilizar a linha de apagar a entrada de texto
 from tkinter import messagebox
 import pandas as pd # para guardar os dados dos jogadores
-from random import choice
+import unittest
 
 # Configurações do campo de futebol
 comprimento_campo = 950
@@ -160,6 +160,7 @@ def command_adicionar_dados_jogador():
     nome.delete(0, END)
     idade.delete(0, END)
     posicao.selection_clear(0, "end")
+    print(jogadores_df)
     return
 
 botao_submeter = tk.Button(janela, text="Adicionar jogador", command=command_adicionar_dados_jogador)
@@ -284,3 +285,16 @@ class simulador_futebol:
             equipa_usuario = self.entry_equipa_usuario.get()
             equipa_adversaria = self.entry_equipa_adversaria.get()
 janela.mainloop()
+
+# Teste unitário #
+
+class Testar_caracteristicas_jogador(unittest.TestCase):
+    def teste_jogador_sem_características_vazias(self):
+        # Verifica se a característica do jogador não está vazia
+        self.assertFalse(jogadores_df.empty)
+        # Verifica se algum jogador tem uma característica vazia
+        for column in jogadores_df.columns:
+            self.assertFalse((jogadores_df[column].str.len() == 0).any())
+
+if __name__ == '__main__':
+    unittest.main()
