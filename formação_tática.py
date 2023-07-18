@@ -160,7 +160,6 @@ def command_adicionar_dados_jogador():
     nome.delete(0, END)
     idade.delete(0, END)
     posicao.selection_clear(0, "end")
-    print(jogadores_df)
     return
 
 botao_submeter = tk.Button(janela, text="Adicionar jogador", command=command_adicionar_dados_jogador)
@@ -211,10 +210,9 @@ for i in range(11):
             old_value = linha_a_mudar[Stat_a_treinar].values[0]
             new_value = old_value + 1
             if new_value < 11: # Limite de treino é até 10
-                indice_jogador_a_treinar = jogadores_df[jogadores_df["Nome"]==nome_jogador].index[0]
-                jogadores_df.at[indice_jogador_a_treinar, Stat_a_treinar] = new_value
+                jogadores_df.at[id_jogador, Stat_a_treinar] = new_value
                 # Atualizar os dados a mostrar
-                dados = jogadores_df[jogadores_df["Nome"]==nome_jogador]
+                dados = jogadores_df.filter(items=[id_jogador], axis=0)
                 valores = dados.values.flatten().tolist()
                 texto2 = "\n".join([f"{valor}" for valor in valores])
                 label = tk.Label(detalhes_app, text=texto2, justify='right', anchor='w')
@@ -240,7 +238,7 @@ botao_selecionar.grid(row=5,column=3)
 
 #####################################################################
 #                                                                   #
-# ------- Secção de Código para Simular Jogos e Campeonata -------- #
+# ------- Secção de Código para Simular Jogos e Campeonato -------- #
 #                                                                   #
 #####################################################################
 
@@ -286,7 +284,11 @@ class simulador_futebol:
             equipa_adversaria = self.entry_equipa_adversaria.get()
 janela.mainloop()
 
-# Teste unitário #
+###################################
+#                                 #
+# ------- Teste Unitário -------- #
+#                                 #
+###################################
 
 class Testar_caracteristicas_jogador(unittest.TestCase):
     def teste_jogador_sem_características_vazias(self):
